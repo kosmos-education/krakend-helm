@@ -23,7 +23,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ template "krakend.fullname" . }}-configmap
+            name: config-krakend-json
         {{- if .Values.addlVolumes }}
         {{- toYaml .Values.addlVolumes | nindent 8 }}
         {{- end }}
