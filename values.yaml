@@ -85,3 +85,4 @@ krakendJson: ""
 addlVolumes: []
 addlVolumeMounts: []
 env: []
+initContainers: []
