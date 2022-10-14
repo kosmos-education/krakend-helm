@@ -45,11 +45,6 @@ spec:
             - name: config
               mountPath: /etc/krakend/
             {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
-            {{- end }}  
-          {{- else if condition2 -}}
-            
-          {{- else -}}
-            
           {{- end -}}}}
           {{- if .Values.commands.enabled }}
           command: {{.Values.commands.command}}
