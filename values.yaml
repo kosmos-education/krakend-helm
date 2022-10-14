@@ -86,3 +86,7 @@ addlVolumes: []
 addlVolumeMounts: []
 env: []
 initContainers: []
+commands:
+  enabled: false
+  commands: []
+  args: []
