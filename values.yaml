@@ -88,5 +88,5 @@ env: []
 initContainers: []
 commands:
   enabled: false
-  commands: []
+  command: []
   args: []
