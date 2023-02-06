@@ -90,3 +90,6 @@ commands:
   enabled: false
   command: []
   args: []
+plugin:
+  enabled: false
+  command: ""

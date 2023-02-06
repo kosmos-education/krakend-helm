@@ -38,6 +38,10 @@ spec:
             - name: config
               mountPath: /etc/krakend/
             {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
+            {{- if .Values.plugin.enabled}}
+            - name: plugin-volume
+              mountPath: /etc/krakend/plugin/
+            {{- end }}
           {{- end }}
           {{- if .Values.commands.enabled }}
           command: {{.Values.commands.command}}
@@ -61,12 +65,25 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.plugin.enabled}}
+         - image: alpine
+           imagePullPolicy: IfNotPresent
+           name: myvolumes-container-1
+           volumeMounts:
+            - mountPath: /download
+              name: plugin-volume
+           command: ['sh','-c','{{ .Values.plugin.command }}']
+      {{- end}}
       volumes:
         - name: config
           configMap:
             name: config-krakend-json
         {{- if .Values.addlVolumes }}
         {{- toYaml .Values.addlVolumes | nindent 8 }}
+        {{- end }}
+        {{- if .Values.plugin.enabled}}
+        - name: volume-plugin
+          emptyDir: {}
         {{- end }}
       {{- if .Values.initContainers}}
       initContainers:
