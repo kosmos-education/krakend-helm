@@ -26,54 +26,57 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "krakend.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 10 }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 14 }}
-          - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            imagePullPolicy: {{ .Values.image.pullPolicy }}
-            {{- if .Values.addlVolumeMounts }}
-            volumeMounts:
-              - name: config
-                mountPath: /etc/krakend/
-              {{- toYaml .Values.addlVolumeMounts | nindent 14 }}
-              {{- if .Values.plugin.enabled}}
-              - name: plugin-volume
-                mountPath: /etc/krakend/plugin/
-              {{- end }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.addlVolumeMounts }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/krakend/
+            {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
+            {{- if .Values.plugin.enabled}}
+            - name: plugin-volume
+              mountPath: /etc/krakend/plugin/
             {{- end }}
-            {{- if .Values.commands.enabled }}
-            command: {{.Values.commands.command}}
-            args: {{ .Values.commands.args}}
+          {{- end }}
+          {{- if .Values.commands.enabled }}
+          command: {{.Values.commands.command}}
+          args: {{ .Values.commands.args}}
+          {{- end }}
+          env:
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
-            env:
-              {{- if .Values.env }}
-              {{- toYaml .Values.env | nindent 14 }}
-              {{- end }}
-            ports:
-              - name: http
-                containerPort: 8080
-                protocol: TCP
-            livenessProbe:
-              httpGet:
-                path: {{ .Values.probe.path}}
-                port: http
-            readinessProbe:
-              httpGet:
-                path: {{ .Values.probe.path}}
-                port: http
-            resources:
-              {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.plugin.enabled}}
-          - image: alpine
-            imagePullPolicy: IfNotPresent
-            name: myvolumes-container-1
-            volumeMounts:
-              - mountPath: /download
-                name: plugin-volume
-            command: ['sh','-c','{{ .Values.plugin.command }}']
-          {{- end}}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probe.path}}
+              port: http
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probe.path}}
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.plugin.enabled}}
+        - name: alpine
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          name: myvolumes-container-1
+          volumeMounts:
+            - mountPath: /download
+              name: plugin-volume
+          command: ['sh','-c','{{ .Values.plugin.command }}']
+      {{- end}}
       volumes:
         - name: config
           configMap:
