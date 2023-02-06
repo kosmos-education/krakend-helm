@@ -66,10 +66,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.plugin.enabled}}
-        - name: "{{ .Values.plugin.image}}"
+        - name: download
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: alpine
+          image: "{{ .Values.plugin.image}}"
           imagePullPolicy: IfNotPresent
           name: myvolumes-container-1
           volumeMounts:
