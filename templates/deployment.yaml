@@ -26,18 +26,18 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "krakend.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.podSecurityContext | nindent 10 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.securityContext | nindent 1' }}
           - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             {{- if .Values.addlVolumeMounts }}
             volumeMounts:
               - name: config
                 mountPath: /etc/krakend/
-              {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
+              {{- toYaml .Values.addlVolumeMounts | nindent 14 }}
               {{- if .Values.plugin.enabled}}
               - name: plugin-volume
                 mountPath: /etc/krakend/plugin/
@@ -49,7 +49,7 @@ spec:
             {{- end }}
             env:
               {{- if .Values.env }}
-              {{- toYaml .Values.env | nindent 12 }}
+              {{- toYaml .Values.env | nindent 14 }}
               {{- end }}
             ports:
               - name: http
