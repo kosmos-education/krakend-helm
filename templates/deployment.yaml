@@ -39,7 +39,7 @@ spec:
               mountPath: /etc/krakend/
             {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
             {{- if .Values.plugin.enabled}}
-            - name: plugin-volume
+            - name: volume-plugin
               mountPath: /etc/krakend/plugin/
             {{- end }}
           {{- end }}
@@ -74,7 +74,7 @@ spec:
           name: myvolumes-container-1
           volumeMounts:
             - mountPath: /download
-              name: plugin-volume
+              name: volume-plugin
           command: ['sh','-c','{{ .Values.plugin.command }}']
       {{- end}}
       volumes:
