@@ -30,7 +30,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 1' }}
+            {{- toYaml .Values.securityContext | nindent 14 }}
           - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             {{- if .Values.addlVolumeMounts }}
