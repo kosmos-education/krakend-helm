@@ -70,6 +70,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.plugin.image}}"
+          restartPolicy: OnFailure
           imagePullPolicy: IfNotPresent
           name: myvolumes-container-1
           volumeMounts:
