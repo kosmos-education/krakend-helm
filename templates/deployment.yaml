@@ -65,19 +65,6 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      {{- if .Values.plugin.enabled}}
-      initContainers:
-        - name: download
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.plugin.image}}"
-          imagePullPolicy: IfNotPresent
-          name: myvolumes-container-1
-          volumeMounts:
-            - mountPath: /download
-              name: volume-plugin
-          command: ['sh','-c','{{ .Values.plugin.command }}']
-      {{- end}}
       volumes:
         - name: config
           configMap:
