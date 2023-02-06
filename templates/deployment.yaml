@@ -22,6 +22,7 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
+      restartPolicy: OnFailure
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "krakend.serviceAccountName" . }}
@@ -70,7 +71,6 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.plugin.image}}"
-          restartPolicy: OnFailure
           imagePullPolicy: IfNotPresent
           name: myvolumes-container-1
           volumeMounts:
