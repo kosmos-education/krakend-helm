@@ -66,7 +66,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.plugin.enabled}}
-        - name: alpine
+        - name: "{{ .Values.plugin.image}}"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: alpine

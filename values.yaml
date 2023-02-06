@@ -92,4 +92,5 @@ commands:
   args: []
 plugin:
   enabled: false
+  image: ""
   command: ""
