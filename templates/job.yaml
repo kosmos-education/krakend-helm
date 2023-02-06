@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-plugin
+spec:
+  template:
+    spec:
+      containers:
+      - name: download
+        image: "{{ .Values.plugin.image}}"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /download
+          name: volume-plugin
+        {{- if .Values.plugin.enabled}}
+        command: ['sh','-c','{{ .Values.plugin.command }}']
+        {{- end }}
+      restartPolicy: OnFailure
+  backoffLimit: 4
