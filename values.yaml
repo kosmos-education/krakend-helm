@@ -92,3 +92,4 @@ commands:
   args: []
 plugin:
   enabled: false
+  mountpath: /etc/krakend/plugin/

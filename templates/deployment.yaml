@@ -40,7 +40,7 @@ spec:
             {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
             {{- if .Values.plugin.enabled}}
             - name: volume-plugin
-              mountPath: /plugin/
+              mountPath: {{ .Values.plugin.mountpath}}
             {{- end }}
           {{- end }}
           {{- if .Values.commands.enabled }}
